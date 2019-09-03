@@ -1,0 +1,370 @@
+"         __  __        __     _____ __  __ ____   ____ 
+"        |  \/  |_   _  \ \   / /_ _|  \/  |  _ \ / ___|
+"        | |\/| | | | |  \ \ / / | || |\/| | |_) | |    
+"        | |  | | |_| |   \ V /  | || |  | |  _ <| |___ 
+"        |_|  |_|\__, |    \_/  |___|_|  |_|_| \_\\____|
+"                |___/                            
+
+filetype on
+filetype indent on
+filetype plugin on
+filetype plugin indent on
+
+
+let mapleader = "\<space>"  "设置leader键为空格
+map <leader>w :w<CR>
+map <leader>q :q<CR>
+map <leader>r :source $MYVIMRC<CR>
+
+map <leader><CR> :nohlsearch<CR>
+
+map <leader>wl :set splitright<CR>:vsplit<CR>
+map <leader>wh :set nosplitright<CR>:vsplit<CR>
+map <leader>wj :set nosplitbelow<CR>:split<CR>
+map <leader>wk :set splitbelow<CR>:split<CR>
+
+map <leader>h  <C-w>h 
+map <leader>l  <C-w>l 
+map <leader>j  <C-w>j 
+map <leader>k  <C-w>k 
+
+map <up> :res +5<CR>
+map <down> :res -5<CR>
+map <left> :vertical resize-5<CR>
+map <right> :vertical resize+5<CR>
+
+map <leader>sv <C-w>t<C-w>H
+map <leader>sh <C-w>t<C-w>K
+
+map <leader>tu :tabe<CR>
+map <leader>tk :-tabnext<CR>
+map <leader>tj :+tabnext<CR>
+
+set background=dark
+let g:SnazzyTransparent =1
+
+
+syntax enable
+syntax on
+set number
+set relativenumber
+set cursorline
+set wrap
+set showcmd
+set wildmenu
+set laststatus=2
+set ruler
+set history=1000
+set foldenable
+set foldmethod=manual
+set nocompatible
+set clipboard+=unnamed
+set nobackup
+set noswapfile
+set hlsearch
+set ignorecase
+set incsearch
+set gdefault                         "行内替换
+set mouse=a
+set selection=exclusive
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set scrolloff=10
+set autoindent
+set list 
+set showmatch
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+"设置编码,支持中文不乱码
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
+"设置插入模式下粘贴内容是不会有格式变形、胡乱缩进等问题
+set listchars=tab:>-,trail:-
+
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'vim-airline/vim-airline'           "底部状态栏
+Plug 'vim-airline/vim-airline-themes'
+Plug 'connorholyday/vim-snazzy'           "主题
+
+" File navigation
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Taglist
+Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
+
+" Error checking
+Plug 'w0rp/ale'
+
+" Undo Tree
+Plug 'mbbill/undotree/'
+
+" Other visual enhancement
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'itchyny/vim-cursorword'
+
+" Python
+Plug 'vim-scripts/indentpython.vim'
+
+" Markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
+Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
+Plug 'vimwiki/vimwiki'
+
+" Bookmarks
+Plug 'kshenoy/vim-signature'
+
+" Other useful utilities
+Plug 'junegunn/goyo.vim' " distraction free writing mode
+
+"auto-complete
+Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
+
+
+" for latex
+Plug 'lervag/vimtex'
+Plug 'xuhdev/vim-latex-live-preview',{'for': 'tex'}
+
+
+Plug 'honza/vim-snippets'         "代码片段
+Plug 'jiangmiao/auto-pairs'       "括号自动匹配
+Plug 'Yggdroot/indentLine'        "显示缩进
+Plug 'mhinz/vim-startify'         "开始界面
+Plug 'kien/rainbow_parentheses.vim' "彩虹括号
+Plug 'aperezdc/vim-template'        "文件模板
+
+call plug#end()
+
+
+" ===
+" === NERDTree
+" ===
+map <leader>ft :NERDTreeToggle<CR>
+let NERDTreeMapOpenExpl = ""
+let NERDTreeMapUpdir = ""
+let NERDTreeMapUpdirKeepOpen = "l"
+let NERDTreeMapOpenSplit = ""
+let NERDTreeOpenVSplit = ""
+let NERDTreeMapActivateNode = "i"
+let NERDTreeMapOpenInTab = "o"
+let NERDTreeMapPreview = ""
+let NERDTreeMapCloseDir = "n"
+let NERDTreeMapChangeRoot = "y"
+
+
+" ==
+" == NERDTree-git
+" ==
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
+
+" ===
+" === ale
+" ===
+let b:ale_linters = ['pylint']
+let b:ale_fixers = ['autopep8', 'yapf']
+
+
+" ===
+" === Taglist
+" ===
+map <silent> T :TagbarOpenAutoClose<CR>
+
+
+" ===
+" === MarkdownPreview
+" ===
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
+let g:mkdp_refresh_slow = 0
+let g:mkdp_command_for_global = 0
+let g:mkdp_open_to_the_world = 0
+let g:mkdp_open_ip = ''
+let g:mkdp_browser = 'chromium'
+let g:mkdp_echo_preview_url = 0
+let g:mkdp_browserfunc = ''
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1
+    \ }
+let g:mkdp_markdown_css = ''
+let g:mkdp_highlight_css = ''
+let g:mkdp_port = ''
+let g:mkdp_page_title = '「${name}」'
+
+
+" ===
+" === vim-table-mode
+" ===
+map <LEADER>tm :TableModeToggle<CR>
+
+" ===
+" === Python-syntax
+" ===
+let g:python_highlight_all = 1
+" let g:python_slow_sync = 0
+
+
+" ===
+" === vim-indent-guide
+" ===
+let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_color_change_percent = 1
+silent! unmap <LEADER>ig
+autocmd WinEnter * silent! unmap <LEADER>ig
+
+
+
+" ===
+" === Goyo
+" ===
+map <LEADER>gy :Goyo<CR>
+
+
+" ===
+" === vim-signiture
+" ===
+let g:SignatureMap = {
+        \ 'Leader'             :  "m",
+        \ 'PlaceNextMark'      :  "m,",
+        \ 'ToggleMarkAtLine'   :  "m.",
+        \ 'PurgeMarksAtLine'   :  "dm-",
+        \ 'DeleteMark'         :  "dm",
+        \ 'PurgeMarks'         :  "dm/",
+        \ 'PurgeMarkers'       :  "dm?",
+        \ 'GotoNextLineAlpha'  :  "m<LEADER>",
+        \ 'GotoPrevLineAlpha'  :  "",
+        \ 'GotoNextSpotAlpha'  :  "m<LEADER>",
+        \ 'GotoPrevSpotAlpha'  :  "",
+        \ 'GotoNextLineByPos'  :  "",
+        \ 'GotoPrevLineByPos'  :  "",
+        \ 'GotoNextSpotByPos'  :  "mn",
+        \ 'GotoPrevSpotByPos'  :  "mp",
+        \ 'GotoNextMarker'     :  "",
+        \ 'GotoPrevMarker'     :  "",
+        \ 'GotoNextMarkerAny'  :  "",
+        \ 'GotoPrevMarkerAny'  :  "",
+        \ 'ListLocalMarks'     :  "m/",
+        \ 'ListLocalMarkers'   :  "m?"
+        \ }
+
+
+" ===
+" === Undotree
+" ===
+let g:undotree_DiffAutoOpen = 0
+map <leader>L :UndotreeToggle<CR>
+
+
+
+"airline配置
+"Automatically displays all buffers when there's only one tab open
+let g:airline#extensions#tabline#enabled = 1
+"Separators can be configured independently for the tabline, so here is how you can define "straight" tabs:
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+"airline_theme
+let g:airline_theme='angr'
+
+"主题
+color snazzy
+
+"coc.nvim
+"To support completion trigger on insert enter
+"use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1] =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+    \ pumvisible() ? "\<C-n>" :
+    \<SID>check_back_space() ? "\<Tab>" :
+    \coc#refresh()
+
+
+" ===
+" === coc.snippets
+" ===
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+
+" ===
+" === vimtex
+" ===
+let g:tex_flavor='latex'
+let g:vimtex_view_method='zathura'
+let g:livepreview_previewer = 'okular'
+let g:vimtex_quickfix_open_on_warning = 0
+let g:vimtex_quickfix_mode=0
+let g:Tex_CompileRule_pdf = 'xelatex -src-specials -synctex=1 -interaction=nonstopmode $*'
+let g:vimtex_view_general_options_latexmk = '-reuse-instance'
+let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
+"隐藏功能，除光标所在行，文本中的LaTeX代码会隐藏
+set conceallevel=1
+let g:tex_conceal='abdmg'
+
+" ===
+" === 彩虹括号
+" ===
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+

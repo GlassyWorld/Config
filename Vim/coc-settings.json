@@ -1,0 +1,38 @@
+{
+"suggest.triggerAfterInsertEnter": true,
+"suggest.timeout": 500,
+"suggest.noselect": false,
+"seggest.minTriggerInputLength": 2,
+"suggest.acceptSuggestionOnCommitCharacter": true,
+"suggest.enablePreview": true,
+"cpp": ["c"],
+"javascriptreact": ["javascript"],
+"typescript": ["javascript"],
+
+
+
+"languageserver": {
+    "digestif": {
+      "command": "/usr/bin/digestif",
+      "filetypes": ["tex", "plaintex", "context"]
+    },
+
+
+
+
+
+
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cuda","objc", "objcpp"],
+      "rootPatterns": [".clang",".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "initializationOptions": {
+         "cache": {
+           "directory": "/tmp/ccls"
+         },
+         "highlight": {"lsRanges": true}
+      }
+    }
+
+  }
+}
