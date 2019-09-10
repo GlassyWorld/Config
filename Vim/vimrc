@@ -5,16 +5,36 @@
 "        |_|  |_|\__, |    \_/  |___|_|  |_|_| \_\\____|
 "                |___/                            
 
+
+" ===
+" === Auto load for first time uses
+" ===
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" ===
+" === Plugin On
+" ===
+
 filetype on
 filetype indent on
 filetype plugin on
 filetype plugin indent on
 
+" ===
+" === Basik mappings
+" === Set leader as space
 
 let mapleader = "\<space>"  "设置leader键为空格
 map <leader>w :w<CR>
 map <leader>q :q<CR>
+map <leader>wq :wq<CR>
 map <leader>r :source $MYVIMRC<CR>
+inoremap Q <Esc>
+
 
 map <leader><CR> :nohlsearch<CR>
 
@@ -40,10 +60,11 @@ map <leader>tu :tabe<CR>
 map <leader>tk :-tabnext<CR>
 map <leader>tj :+tabnext<CR>
 
+" Themes
 set background=dark
 let g:SnazzyTransparent =1
 
-
+" Editor behavior
 syntax enable
 syntax on
 set number
@@ -74,6 +95,7 @@ set scrolloff=10
 set autoindent
 set list 
 set showmatch
+" Cursor shape
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
@@ -85,6 +107,10 @@ set encoding=utf-8
 "设置插入模式下粘贴内容是不会有格式变形、胡乱缩进等问题
 set listchars=tab:>-,trail:-
 
+
+" ===
+" === Install Plugins with Vim-Plug
+" ===
 
 call plug#begin('~/.vim/plugged')
 
@@ -106,15 +132,15 @@ Plug 'w0rp/ale'
 Plug 'mbbill/undotree/'
 
 " Other visual enhancement
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'itchyny/vim-cursorword'
+Plug 'mhinz/vim-startify'
 
 " Python
-Plug 'vim-scripts/indentpython.vim'
+Plug 'vim-scripts/indentpython.vim', { 'for' :['python', 'vim-plug'] }
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
+Plug 'mzlogin/vim-markdown-toc'
 Plug 'vimwiki/vimwiki'
 
 " Bookmarks
@@ -177,7 +203,11 @@ let g:NERDTreeIndicatorMapCustom = {
 " === ale
 " ===
 let b:ale_linters = ['pylint']
-let b:ale_fixers = ['autopep8', 'yapf']
+let b:ale_fixers = { 
+            \ 'python':['add_blank_lines_for_python_control_statements','autopep8','isort','yapf',
+            \ 'remove_trailing_lines','trim_whitespace'],
+            \ 'markdown': ['prettier','remove_trailing_lines','trim_whitespace'],
+            \ }
 
 
 " ===
@@ -211,6 +241,16 @@ let g:mkdp_markdown_css = ''
 let g:mkdp_highlight_css = ''
 let g:mkdp_port = ''
 let g:mkdp_page_title = '「${name}」'
+nmap <leader>md <Plug>MarkdownPreview
+nmap <leader>c :set conceallevel=0<CR>
+" My snippets for markdown
+source ~/.vim/snippits.vim
+
+" ===
+" === Markdown-Toc
+" ===
+let g:vmt_cycle_list_item_markers = 1
+nmap <leader>mt :GenTocRedcarpet <CR>
 
 
 " ===
@@ -219,7 +259,16 @@ let g:mkdp_page_title = '「${name}」'
 map <LEADER>tm :TableModeToggle<CR>
 
 " ===
-" === Python-syntax
+" === Vimwiki
+" ===
+let g:vimwiki_list = [{'path': '~/Work/vimwiki/',
+            \ 'ext': '.markdown', 'syntax': 'markdown'}]
+map <A-Space> <Plug>VimwikiToggleListItem
+let g:vimwiki_table_mappings = 0
+let g:vimwiki_global_ext = 0
+
+" ===
+"=== Python-syntax
 " ===
 let g:python_highlight_all = 1
 " let g:python_slow_sync = 0
@@ -295,6 +344,10 @@ color snazzy
 
 "coc.nvim
 "To support completion trigger on insert enter
+" Installing plugins
+let g:coc_global_extensions = ['coc-python', 'coc-vimlsp', 'coc-snippets',
+            \'coc-emmet', 'coc-html', 'coc-json', 'coc-css', 'coc-tsserver', 'coc-yank',
+            \'coc-lists', 'coc-gitignore','coc-texlab']
 "use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -306,6 +359,13 @@ inoremap <silent><expr> <Tab>
     \<SID>check_back_space() ? "\<Tab>" :
     \coc#refresh()
 
+" Useful commands
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
 
 " ===
 " === coc.snippets
@@ -322,6 +382,24 @@ function! s:check_back_space() abort
 endfunction
 
 let g:coc_snippet_next = '<tab>'
+
+
+
+" ===
+" === Python-syntax
+" ===
+let g:python_highlight_all = 1
+" let g:python_slow_sync = 0
+
+
+" ===
+" === indentLine
+" ===
+let g:indentLine_char = '│'
+let g:indentLine_color_term = 238
+let g:indentLine_color_gui = '#333333'
+silent! unmap <LEADER>ig
+autocmd WinEnter * silent! unmap <LEADER>ig
 
 
 " ===
