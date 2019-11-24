@@ -1,18 +1,18 @@
-"         __  __        __     _____ __  __ ____   ____ 
+"         __  __        __     _____ __  __ ____   ____
 "        |  \/  |_   _  \ \   / /_ _|  \/  |  _ \ / ___|
-"        | |\/| | | | |  \ \ / / | || |\/| | |_) | |    
-"        | |  | | |_| |   \ V /  | || |  | |  _ <| |___ 
+"        | |\/| | | | |  \ \ / / | || |\/| | |_) | |
+"        | |  | | |_| |   \ V /  | || |  | |  _ <| |___
 "        |_|  |_|\__, |    \_/  |___|_|  |_|_| \_\\____|
-"                |___/                            
+"                |___/
 
 
 " ===
 " === Auto load for first time uses
 " ===
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 " ===
@@ -35,6 +35,8 @@ map <leader>wq :wq<CR>
 map <leader>r :source $MYVIMRC<CR>
 inoremap Q <Esc>
 
+"Opening a terminal window
+noremap <LEADER>/ :set splitbelow<CR>:sp<CR>:term<CR>
 
 map <leader><CR> :nohlsearch<CR>
 
@@ -43,10 +45,10 @@ map <leader>wh :set nosplitright<CR>:vsplit<CR>
 map <leader>wj :set nosplitbelow<CR>:split<CR>
 map <leader>wk :set splitbelow<CR>:split<CR>
 
-map <leader>h  <C-w>h 
-map <leader>l  <C-w>l 
-map <leader>j  <C-w>j 
-map <leader>k  <C-w>k 
+map <leader>h  <C-w>h
+map <leader>l  <C-w>l
+map <leader>j  <C-w>j
+map <leader>k  <C-w>k
 
 map <up> :res +5<CR>
 map <down> :res -5<CR>
@@ -60,13 +62,56 @@ map <leader>tu :tabe<CR>
 map <leader>tk :-tabnext<CR>
 map <leader>tj :+tabnext<CR>
 
+
+
+"设置跳出自动补全的括号
+func SkipPair()  
+    if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getline('.')[col('.') - 1] == '}'  
+        return "\<ESC>la"  
+    else  
+        return "\t"  
+    endif  
+endfunc  
+" 将tab键绑定为跳出括号  
+inoremap <F4> <c-r>=SkipPair()<CR>
+
+"设置<F5>自动编译运行当前程序
+map <F5> :call CompileRunGcc()<CR>
+
+func! CompileRunGcc()
+    exec "w"
+    if &filetype == 'c'
+        exec '!g++ % -o %<'
+        exec '!time ./%<'
+    elseif &filetype == 'cpp'
+        set splitbelow
+        exec "!g++ -std=c++11 % -Wall -o %<"
+        "exec '!time ./%<'
+        :term ./%<
+    elseif &filetype == 'python'
+        set splitbelow
+        :term python3 %
+    elseif &filetype == 'sh'
+        :!time bash %
+    endif
+endfunction
+
+
 " Themes
 set background=dark
 let g:SnazzyTransparent =1
 
 " Editor behavior
+
+
+set autoread
+
+" Copy to system clipboard
+vnoremap Y :w !xclip -i -sel c<CR>
+
 syntax enable
 syntax on
+set spell
 set number
 set relativenumber
 set cursorline
@@ -93,7 +138,7 @@ set tabstop=4
 set shiftwidth=4
 set scrolloff=10
 set autoindent
-set list 
+set list
 set showmatch
 " Cursor shape
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
@@ -116,11 +161,26 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'vim-airline/vim-airline'           "底部状态栏
 Plug 'vim-airline/vim-airline-themes'
-Plug 'connorholyday/vim-snazzy'           "主题
+"Plug 'connorholyday/vim-snazzy'           "主题
+Plug 'morhetz/gruvbox'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'ajmwagar/vim-deus'
+Plug 'ayu-theme/ayu-vim'
+
+
+"General Highlighter
+Plug 'jaxbot/semantic-highlight.vim'
+Plug 'chrisbra/Colorizer' " Show colors with :ColorHighlight
 
 " File navigation
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
+"文件树
+  Plug 'Shougo/defx.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'kristijanhusak/defx-icons'
 
 " Taglist
 Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
@@ -136,12 +196,19 @@ Plug 'mhinz/vim-startify'
 
 " Python
 Plug 'vim-scripts/indentpython.vim', { 'for' :['python', 'vim-plug'] }
+Plug 'numirias/semshi', {'do':'UpdateRemotePlugins'}
+Plug 'tweekmonster/braceless.vim'
+Plug 'hdima/python-syntax'
+Plug 'tmhedberg/SimpylFold'
+Plug 'Vimjas/vim-python-pep8-indent',{'for' :['python','vim-plug']}
+
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'vimwiki/vimwiki'
+Plug 'itchyny/calendar.vim'
 
 " Bookmarks
 Plug 'kshenoy/vim-signature'
@@ -152,20 +219,38 @@ Plug 'junegunn/goyo.vim' " distraction free writing mode
 "auto-complete
 Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
+"Formatter
+Plug 'Chiel92/vim-autoformat'
+
 
 " for latex
 Plug 'lervag/vimtex'
 Plug 'xuhdev/vim-latex-live-preview',{'for': 'tex'}
 
+"Search File Word
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+Plug 'francoiscabrol/ranger.vim'
 
 Plug 'honza/vim-snippets'         "代码片段
-Plug 'jiangmiao/auto-pairs'       "括号自动匹配
 Plug 'Yggdroot/indentLine'        "显示缩进
 Plug 'mhinz/vim-startify'         "开始界面
 Plug 'kien/rainbow_parentheses.vim' "彩虹括号
 Plug 'aperezdc/vim-template'        "文件模板
+Plug 'tpope/vim-surround' " type ysks` to wrap the word with '' or type cs'` to change
 
 call plug#end()
+
+" ===
+" === Dress up my vim
+" ===
+set termguicolors " enable true colors support
+"colorscheme snazzy
+"color dracula
+color deus 
+"color gruvbox 
+
+hi NonText ctermfg=gray guifg=grey10
 
 
 " ===
@@ -188,22 +273,22 @@ let NERDTreeMapChangeRoot = "y"
 " == NERDTree-git
 " ==
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ "Unknown"   : "?"
-    \ }
+            \ "Modified"  : "✹",
+            \ "Staged"    : "✚",
+            \ "Untracked" : "✭",
+            \ "Renamed"   : "➜",
+            \ "Unmerged"  : "═",
+            \ "Deleted"   : "✖",
+            \ "Dirty"     : "✗",
+            \ "Clean"     : "✔︎",
+            \ "Unknown"   : "?"
+            \ }
 
 " ===
 " === ale
 " ===
 let b:ale_linters = ['pylint']
-let b:ale_fixers = { 
+let b:ale_fixers = {
             \ 'python':['add_blank_lines_for_python_control_statements','autopep8','isort','yapf',
             \ 'remove_trailing_lines','trim_whitespace'],
             \ 'markdown': ['prettier','remove_trailing_lines','trim_whitespace'],
@@ -229,14 +314,14 @@ let g:mkdp_browser = 'chromium'
 let g:mkdp_echo_preview_url = 0
 let g:mkdp_browserfunc = ''
 let g:mkdp_preview_options = {
-    \ 'mkit': {},
-    \ 'katex': {},
-    \ 'uml': {},
-    \ 'maid': {},
-    \ 'disable_sync_scroll': 0,
-    \ 'sync_scroll_type': 'middle',
-    \ 'hide_yaml_meta': 1
-    \ }
+            \ 'mkit': {},
+            \ 'katex': {},
+            \ 'uml': {},
+            \ 'maid': {},
+            \ 'disable_sync_scroll': 0,
+            \ 'sync_scroll_type': 'middle',
+            \ 'hide_yaml_meta': 1
+            \ }
 let g:mkdp_markdown_css = ''
 let g:mkdp_highlight_css = ''
 let g:mkdp_port = ''
@@ -266,6 +351,8 @@ let g:vimwiki_list = [{'path': '~/Work/vimwiki/',
 map <A-Space> <Plug>VimwikiToggleListItem
 let g:vimwiki_table_mappings = 0
 let g:vimwiki_global_ext = 0
+map <LEADER>t :VimwikiTable<CR>
+let g:vimwiki_use_calendar = 1
 
 " ===
 "=== Python-syntax
@@ -296,28 +383,28 @@ map <LEADER>gy :Goyo<CR>
 " === vim-signiture
 " ===
 let g:SignatureMap = {
-        \ 'Leader'             :  "m",
-        \ 'PlaceNextMark'      :  "m,",
-        \ 'ToggleMarkAtLine'   :  "m.",
-        \ 'PurgeMarksAtLine'   :  "dm-",
-        \ 'DeleteMark'         :  "dm",
-        \ 'PurgeMarks'         :  "dm/",
-        \ 'PurgeMarkers'       :  "dm?",
-        \ 'GotoNextLineAlpha'  :  "m<LEADER>",
-        \ 'GotoPrevLineAlpha'  :  "",
-        \ 'GotoNextSpotAlpha'  :  "m<LEADER>",
-        \ 'GotoPrevSpotAlpha'  :  "",
-        \ 'GotoNextLineByPos'  :  "",
-        \ 'GotoPrevLineByPos'  :  "",
-        \ 'GotoNextSpotByPos'  :  "mn",
-        \ 'GotoPrevSpotByPos'  :  "mp",
-        \ 'GotoNextMarker'     :  "",
-        \ 'GotoPrevMarker'     :  "",
-        \ 'GotoNextMarkerAny'  :  "",
-        \ 'GotoPrevMarkerAny'  :  "",
-        \ 'ListLocalMarks'     :  "m/",
-        \ 'ListLocalMarkers'   :  "m?"
-        \ }
+            \ 'Leader'             :  "m",
+            \ 'PlaceNextMark'      :  "m,",
+            \ 'ToggleMarkAtLine'   :  "m.",
+            \ 'PurgeMarksAtLine'   :  "dm-",
+            \ 'DeleteMark'         :  "dm",
+            \ 'PurgeMarks'         :  "dm/",
+            \ 'PurgeMarkers'       :  "dm?",
+            \ 'GotoNextLineAlpha'  :  "m<LEADER>",
+            \ 'GotoPrevLineAlpha'  :  "",
+            \ 'GotoNextSpotAlpha'  :  "m<LEADER>",
+            \ 'GotoPrevSpotAlpha'  :  "",
+            \ 'GotoNextLineByPos'  :  "",
+            \ 'GotoPrevLineByPos'  :  "",
+            \ 'GotoNextSpotByPos'  :  "mn",
+            \ 'GotoPrevSpotByPos'  :  "mp",
+            \ 'GotoNextMarker'     :  "",
+            \ 'GotoPrevMarker'     :  "",
+            \ 'GotoNextMarkerAny'  :  "",
+            \ 'GotoPrevMarkerAny'  :  "",
+            \ 'ListLocalMarks'     :  "m/",
+            \ 'ListLocalMarkers'   :  "m?"
+            \ }
 
 
 " ===
@@ -339,15 +426,14 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 "airline_theme
 let g:airline_theme='angr'
 
-"主题
-color snazzy
 
 "coc.nvim
 "To support completion trigger on insert enter
 " Installing plugins
 let g:coc_global_extensions = ['coc-python', 'coc-vimlsp', 'coc-snippets',
             \'coc-emmet', 'coc-html', 'coc-json', 'coc-css', 'coc-tsserver', 'coc-yank',
-            \'coc-lists', 'coc-gitignore','coc-texlab']
+            \'coc-lists', 'coc-gitignore','coc-texlab','coc-imselect',
+            \'coc-prettier','coc-highlight','coc-pairs' ]
 "use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -355,9 +441,9 @@ function! s:check_back_space() abort
 endfunction
 
 inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" :
-    \<SID>check_back_space() ? "\<Tab>" :
-    \coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \<SID>check_back_space() ? "\<Tab>" :
+            \coc#refresh()
 
 " Useful commands
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
@@ -371,25 +457,20 @@ nmap <leader>rn <Plug>(coc-rename)
 " === coc.snippets
 " ===
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+            \ pumvisible() ? coc#_select_confirm() :
+            \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 let g:coc_snippet_next = '<tab>'
 
 
 
-" ===
-" === Python-syntax
-" ===
-let g:python_highlight_all = 1
-" let g:python_slow_sync = 0
 
 
 " ===
@@ -416,27 +497,28 @@ let g:vimtex_view_general_options = '-reuse-instance -forward-search @tex @line 
 "隐藏功能，除光标所在行，文本中的LaTeX代码会隐藏
 set conceallevel=1
 let g:tex_conceal='abdmg'
+map <LEADER>lc :VimtexCompile <CR>
 
 " ===
 " === 彩虹括号
 " ===
 let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
+            \ ['brown',       'RoyalBlue3'],
+            \ ['Darkblue',    'SeaGreen3'],
+            \ ['darkgray',    'DarkOrchid3'],
+            \ ['darkgreen',   'firebrick3'],
+            \ ['darkcyan',    'RoyalBlue3'],
+            \ ['darkred',     'SeaGreen3'],
+            \ ['darkmagenta', 'DarkOrchid3'],
+            \ ['brown',       'firebrick3'],
+            \ ['gray',        'RoyalBlue3'],
+            \ ['darkmagenta', 'DarkOrchid3'],
+            \ ['Darkblue',    'firebrick3'],
+            \ ['darkgreen',   'RoyalBlue3'],
+            \ ['darkcyan',    'SeaGreen3'],
+            \ ['darkred',     'DarkOrchid3'],
+            \ ['red',         'firebrick3'],
+            \ ]
 
 let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle = 0
@@ -446,3 +528,55 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 
+
+" ===
+" === FZF
+" ===
+map <C-p> :FZF<CR>
+
+" ===
+" === Ranger.vim
+" ===
+nnoremap <leader>R :Ranger<CR>
+
+" ===
+" === fzf-gitignore
+" ===
+map <LEADER>gi <Plug>(fzf-gitignore)
+
+
+" ===
+" === Ranger.vim
+" ===
+ nnoremap <LEADER>af :Autoformat<CR>
+
+
+" ===
+" === defx.nvim
+" ===
+call defx#custom#option('_', {
+      \ 'winwidth': 30,
+      \ 'split': 'vertical',
+      \ 'direction': 'topleft',
+      \ 'show_ignored_files': 0,
+      \ 'buffer_name': '',
+      \ 'toggle': 1,
+      \ 'resume': 1
+      \ })
+nmap <silent> <LEADER>d :Defx <CR>
+
+autocmd FileType defx call s:defx_mappings()
+
+function! s:defx_mappings() abort
+  nnoremap <silent><buffer><expr> l     <SID>defx_toggle_tree()                    " 打开或者关闭文件夹，文件
+  nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files')     " 显示隐藏文件
+  nnoremap <silent><buffer><expr> <C-r>  defx#do_action('redraw')
+endfunction
+
+function! s:defx_toggle_tree() abort
+    " Open current file, or toggle directory expand/collapse
+    if defx#is_directory()
+        return defx#do_action('open_or_close_tree')
+    endif
+    return defx#do_action('multi', ['drop'])
+endfunction
