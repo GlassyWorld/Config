@@ -26,24 +26,31 @@ This function should only modify configuration layer settings."
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
 
-   ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
    dotspacemacs-configuration-layer-path '()
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+
+
+     clay
+
+     python
+     semantic
+     ivy
      auto-completion
-     ;; better-defaults
+     better-defaults
      emacs-lisp
-     ;; git
+     git
      helm
+     ;; lsp
      markdown
      multiple-cursors
      org
@@ -54,6 +61,11 @@ This function should only modify configuration layer settings."
      syntax-checking
      treemacs
      ;; version-control
+
+     (better-defaults :variables
+                      better-defaults-move-to-end-of-code-first t)
+     (org :variables
+          org-enable-github-support t)
      (syntax-checking :variables
                       syntax-checking-enable-by-default nil
                       syntax-checking-enable-tooltips nil)
@@ -79,9 +91,6 @@ This function should only modify configuration layer settings."
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '()
-
-   ;; LaTeX Org-mode支持
-   dotspacemacs-additional-packages'(cdlatex auctex)
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -143,8 +152,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
-   ;; (default nil)
-   dotspacemacs-verify-spacelpa-archives nil
+   ;; (default t)
+   dotspacemacs-verify-spacelpa-archives t
 
    ;; If non-nil then spacemacs will check for updates at startup
    ;; when the current branch is not `develop'. Note that checking for
@@ -217,8 +226,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '("Courier New"
-                               :size 10.0
+   dotspacemacs-default-font '("Source Code Pro"
+                               :size 12.0
                                :weight normal
                                :width normal)
 
@@ -459,10 +468,10 @@ See the header of this file for more information."
 
 (defun dotspacemacs/user-init ()
 
-;; (setq configuration-layer-elpa-archives
-;;     '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-;;      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-;;      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+ (setq configuration-layer-elpa-archives
+     '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
 
   "Initialization for user code:
 This function is called immediately after `dotspacemacs/init', before layer
@@ -479,35 +488,50 @@ dump."
   )
 
 (defun dotspacemacs/user-config ()
+  
+
+  ;; 在状态栏显示时间
+  (display-time-mode 1)
+
+  ;; 折叠时不显示[...]
+  (setq org-ellipsis "V")
 
 
-  (require 'org-tempo)
+  ;; 添加Org-mode文本内语法高亮
+  (require 'org)
+  (setq org-src-fontify-natively t)
+  ;; 打开 org-indent mode
+  (setq org-startup-indented t)
+  ;; 设置 bullet list
+  (setq org-bullets-bullet-list '("☰" "☷" "☯" "☭"))
+  ;; 设置 todo keywords
+  (setq org-todo-keywords
+        '((sequence "TODO" "HAND" "|" "DONE")))
+  
+;; 调试好久的颜色，效果超赞！todo keywords 增加背景色
+(setf org-todo-keyword-faces '(("TODO" . (:foreground "white" :background "#95A5A6" :weight bold))
+                               ("HAND" . (:foreground "white" :background "#2E8B57" :weight bold))
+                               ("DONE" . (:foreground "white" :background "#3498DB" :weight bold))))
+  ;; 全局使用auto-completion
+  (global-company-mode 1 )
+
   ;; yasnippet补全配置
   (use-package yasnippet
-    :ensure t
-    :init
-    (yas-global-mode 1)
+    :ensure t 
+    :init 
+    (yas-global-mode 1 )
     :config
     (add-to-list 'yas-snippet-dirs (locate-user-emacs-file "snippets")))
 
-  ;; Org-Mode导出为Markdown
-  (use-package ox-gfm :defer t :ensure t)
-   (setq-default dotspacemacs-configuration-layers '(
-                                                     (org :variables
-                                              org-enable-github-support t)))
-  ;; LaTex 配置
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-  (setq-default TeX-engine 'xetex)
-  (setq-default TeX-master nil)
-  (setq TeX-view-program-list
-        '(("Sumatra PDF" ("\"D:/Program Files/SumatraPDF/SumatraPDF.exe\" "
-                          (mode-io-correlate "-forward-search %b %n ") "%o"
-                          )))
-        )
-  (eval-after-load 'tex
-    '(progn
-       (assq-delete-all 'output-pdf TeX-view-program-selection)
-       (add-to-list 'TeX-view-program-selection '(output-pdf "Sumatra PDF"))))
+    ;; Org-mode导出为Markdown
+    (use-package ox-gfm :defer t :ensure t)
+
+
+    ;; 将 occur 的 buffer 中的光标移动方式修改为 HJKL
+    (evilified-state-evilify-map occur-mode-map
+      :mode occur-mode)
+
+
 
 
 
@@ -532,7 +556,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-mode web-beautify tagedit slim-mode scss-mode sass-mode pug-mode prettier-js impatient-mode simple-httpd helm-css-scss haml-mode emmet-mode company-web web-completion-data add-node-modules-path smart-tab use-package-el-get use-package-ensure-system-package use-package-chords angular-snippets vmd-mode mmm-mode markdown-toc markdown-mode gh-md emoji-cheat-sheet-plus company-emoji ox-gfm yasnippet-snippets ws-butler writeroom-mode winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin persp-mode pcre2el password-generator paradox overseer org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot fuzzy font-lock+ flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word company-statistics column-enforce-mode clean-aindent-mode centered-cursor-mode cdlatex auto-yasnippet auto-highlight-symbol auto-compile auctex aggressive-indent ace-link ace-jump-helm-line ac-ispell))))
+    (stickyfunc-enhance srefactor tree-mode lsp-mode dash-functional cython-mode counsel-gtags counsel swiper ivy company-anaconda blacken anaconda-mode pythonic yasnippet-snippets ws-butler writeroom-mode winum which-key volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons restart-emacs request rainbow-delimiters popwin persp-mode pcre2el password-generator paradox ox-gfm overseer org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-bullets org-brain open-junk-file nameless move-text mmm-mode markdown-toc macrostep lorem-ipsum link-hint indent-guide hybrid-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gh-md fuzzy font-lock+ flyspell-correct-helm flycheck-pos-tip flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word company-statistics column-enforce-mode clean-aindent-mode centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
