@@ -30,6 +30,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -190,7 +191,7 @@ bindsym $mod+r mode "resize"
 # }
 
 #设置壁纸
-exec feh --randomize --bg-fill ~/Pictures
+exec feh --randomize --bg-fill ~/Backgrounds
 #开机启动输入法
 exec fcitx
 # 浏览器快捷键
@@ -198,3 +199,5 @@ bindsym $mod+c exec google-chrome-stable
 # 开机启动compton
 exec compton
 exec_always --no-startup-id ~/.config/polybar/launch.sh
+# 开机启动数字键盘
+exec_always --no-startup-id /usr/bin/numlockx
