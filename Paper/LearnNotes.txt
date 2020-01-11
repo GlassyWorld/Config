@@ -1,0 +1,53 @@
+LearnNotes.txt
+
+:Author: clay
+:Email: clay@Clay
+:Date: 2019-12-29 16:11
+
+一、ArchLinux 下 git 设置代理
+git config --global http.proxy 'socks5://127.0.0.1:8080'
+git config --global https.proxy 'socks5://127.0.0.1:8080'
+
+二、ArchLinux 下配置fcitx
+配置文件要写在~/.pam.environment
+
+三、ArchLinux下配置数据库
+Installing MariaDB/MySQL system tables in '/var/lib/mysql' OK
+
+To start mysqld at boot time you have to copy
+support-files/mysql.server to the right place for yout system
+
+Two all-privilege accounts were created.
+One is root@localhost, it has no password, but you need to
+be system 'mysql' user to connect.
+After connecting you can set the password, if you would need to be 
+able to connect as any of these users with a password and without sudo
+
+See the MariaDB Konwledgebase at http://mariadb.com/kb or the
+MySQL manual for more instructions.
+
+You can start the MariaDB daemon with mysql-test-run.pl 
+cd '/usr/mysql-test' ; perl mysql-test-run.pl 
+
+Please report any problems at http://mariadb.org/jira
+
+The latest information ablut MariaDB is avaliable at http://mariadb.org/.
+You can find additional information about the MySQL part at:
+http://dev.mysql.com
+Consider joining MariaDB's strong and vibrant community:
+https://mariadb.org/get-involved/
+
+1. 启动MariaDb
+sudo systemctl start mysqld
+2. 为root用户设置新密码
+sudo mysqladmin -u root password '12345678'
+3. 尝试登陆MariaDb
+mysql -uroot -p 
+4. 登陆成功
+Welcome to the MariaDB monitor. Commands end with  ; or \g;
+Your MariaDB connection id is 12
+Server version : 10.4.44-MariaDB Arch Linux
+
+Copyright (c) 2009,2018，Oracle,MariaDB Corporation AB and others.
+
+Type 'help;' or 'h' for help. Type '\c' to clear the current input statement.
