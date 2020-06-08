@@ -71,7 +71,6 @@ ZSH_THEME="ys"
 plugins=(git
 zsh-autosuggestions
 zsh-syntax-highlighting
-vi-mode
 
     )
 #命令别名
