@@ -73,11 +73,15 @@ zsh-autosuggestions
 zsh-syntax-highlighting
 
     )
-#命令别名
+# 命令别名
 alias ra='ranger'
 alias y='yay'
 alias cl='clear'
 alias q='exit'
+
+# 配置终端代理
+alias setproxy="export ALL_PROXY=socks5://127.0.0.1:1080"
+alias unsetproxy="unset ALL_PROXY"
 
 source $ZSH/oh-my-zsh.sh
 
