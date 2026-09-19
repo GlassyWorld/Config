@@ -1,0 +1,13 @@
+.DS_Store
+
+# Neovim local state
+nvim/.neoconf.json
+
+# Python/cache files
+__pycache__/ 
+*.pyc
+
+# editor temporary files
+*.swp
+*.swo
+*~
