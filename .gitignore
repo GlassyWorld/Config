@@ -4,10 +4,13 @@
 nvim/.neoconf.json
 
 # Python/cache files
-__pycache__/ 
+__pycache__/
 *.pyc
 
 # editor temporary files
 *.swp
 *.swo
 *~
+
+# Yazi managed packages
+yazi/flavors/rose-pine-moon.yazi/
