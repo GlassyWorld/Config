@@ -1,0 +1,8 @@
+# User keybindings only 
+# Prefer prepend_keymap / append_keymap over replacing defaults
+[mgr]
+prepend_keymap = [
+    { on = "?", run = "help", desc = "Open helo" },
+    { on = ["g", "w" ], run = "cd ~/Documents/whiteink", desc = "Go WhiteInk" },
+    { on = ["g", "c" ], run = "cd ~/.config", desc = "Go config" },
+]

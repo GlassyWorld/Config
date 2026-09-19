@@ -1,0 +1,4 @@
+# User overrides only
+# Do not copy Yazi's shipped preset into this file
+[mgr]
+sort_by = "natural"
