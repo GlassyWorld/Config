@@ -119,6 +119,10 @@ export EDITOR=nvim
 export VISUAL=nvim
 
 
+# DoomEmacs
+export PATH="$HOME/.config/emacs/bin:$PATH"
+
+
 # Perl
 eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 
