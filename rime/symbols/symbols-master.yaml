@@ -1,0 +1,195 @@
+# Rime symbol master catalog
+# Canonical source for personal symbol mappings.
+#
+# Model:
+# - Every entry has one code, one category, one ordered symbol list, and one direct flag.
+# - Every code is intended to be available as /code.
+# - Only entries with direct: true are additionally exposed as bare code.
+# - This file is the single source of truth; generated Rime files are derived artifacts.
+#
+# Primary reference:
+#   wklchris/Rime-latex-symbols, latexmath.yaml (GPL-3.0)
+#   upstream blob: 06448a858534f5ddc089695bd0f08600ec3280fc
+#
+# Phase 1 policy:
+# - Preserve the upstream code set and candidate ordering.
+# - Keep every entry direct: false.
+# - Direct-safe codes will be selected separately in Phase 2.
+
+version: 1
+
+symbols:
+  # General symbols
+  - { code: dots, category: general, symbols: ["…", "⋯", "⋮", "⋰", "⋱"], direct: false }
+  - { code: cdots, category: general, symbols: ["…", "⋯", "⋮", "⋰", "⋱"], direct: false }
+  - { code: ldots, category: general, symbols: ["…", "⋯", "⋮", "⋰", "⋱"], direct: false }
+  - { code: vdots, category: general, symbols: ["…", "⋯", "⋮", "⋰", "⋱"], direct: false }
+  - { code: ddots, category: general, symbols: ["…", "⋯", "⋮", "⋰", "⋱"], direct: false }
+  - { code: forall, category: general, symbols: ["∀"], direct: false }
+  - { code: exists, category: general, symbols: ["∃"], direct: false }
+  - { code: because, category: general, symbols: ["∵"], direct: false }
+  - { code: therefore, category: general, symbols: ["∴"], direct: false }
+  - { code: sum, category: general, symbols: ["∑"], direct: false }
+  - { code: prod, category: general, symbols: ["∏"], direct: false }
+  - { code: sqrt, category: general, symbols: ["√", "∛", "∜"], direct: false }
+  - { code: propto, category: general, symbols: ["∝"], direct: false }
+  - { code: ratio, category: general, symbols: ["∶"], direct: false }
+  - { code: inf, category: general, symbols: ["∞"], direct: false }
+  - { code: infty, category: general, symbols: ["∞"], direct: false }
+  - { code: empty, category: general, symbols: ["∅"], direct: false }
+  - { code: log, category: general, symbols: ["㏒"], direct: false }
+  - { code: ln, category: general, symbols: ["㏑"], direct: false }
+  - { code: hslash, category: general, symbols: ["ℏ"], direct: false }
+  - { code: sub, category: general, symbols: ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "ₙ"], direct: false }
+  - { code: subnum, category: general, symbols: ["₀", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉", "ₙ"], direct: false }
+  - { code: sup, category: general, symbols: ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "ⁿ"], direct: false }
+  - { code: supnum, category: general, symbols: ["⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "ⁿ"], direct: false }
+  - { code: degree, category: general, symbols: ["°", "℃", "℉"], direct: false }
+
+  # Number sets and special mathematical letters
+  - { code: ell, category: math_letters, symbols: ["ℓ"], direct: false }
+  - { code: mathbb, category: math_letters, symbols: ["ℂ", "ℕ", "ℙ", "ℚ", "ℝ", "ℤ"], direct: false }
+  - { code: bbc, category: math_letters, symbols: ["ℂ"], direct: false }
+  - { code: bbn, category: math_letters, symbols: ["ℕ", "ℕ₀", "ℕ₊"], direct: false }
+  - { code: bbp, category: math_letters, symbols: ["ℙ"], direct: false }
+  - { code: bbq, category: math_letters, symbols: ["ℚ", "ℚ₊", "ℚ₋"], direct: false }
+  - { code: bbr, category: math_letters, symbols: ["ℝ", "ℝ₊", "ℝ₋"], direct: false }
+  - { code: bbz, category: math_letters, symbols: ["ℤ", "ℤ₊", "ℤ₋"], direct: false }
+
+  # Geometry
+  - { code: angle, category: geometry, symbols: ["∠", "∟", "⦜", "⊾", "∡", "∢"], direct: false }
+  - { code: parallel, category: geometry, symbols: ["∥"], direct: false }
+  - { code: perp, category: geometry, symbols: ["⊥"], direct: false }
+  - { code: sim, category: geometry, symbols: ["∼", "≃", "≅"], direct: false }
+  - { code: simeq, category: geometry, symbols: ["∼", "≃", "≅"], direct: false }
+  - { code: circle, category: geometry, symbols: ["○", "●", "◎", "◉"], direct: false }
+  - { code: sector, category: geometry, symbols: ["⌔", "⌓"], direct: false }
+  - { code: arc, category: geometry, symbols: ["◜", "◝", "◞", "◟"], direct: false }
+  - { code: ellipse, category: geometry, symbols: ["⬭", "\u2B2C", "⬯", "⬮"], direct: false }
+  - { code: triangle, category: geometry, symbols: ["△", "◺", "◿", "▲", "◁", "◀", "▷", "▶", "▽", "▼", "◣", "◢", "◹", "◥", "◸", "◤"], direct: false }
+  - { code: square, category: geometry, symbols: ["□", "■"], direct: false }
+  - { code: rectangle, category: geometry, symbols: ["▭", "▬", "▯", "▮"], direct: false }
+  - { code: rect, category: geometry, symbols: ["▭", "▬", "▯", "▮"], direct: false }
+  - { code: diamond, category: geometry, symbols: ["◇", "◆", "◈"], direct: false }
+  - { code: lozenge, category: geometry, symbols: ["◇", "◆", "◈"], direct: false }
+  - { code: parallelogram, category: geometry, symbols: ["▱", "▰"], direct: false }
+  - { code: parm, category: geometry, symbols: ["▱", "▰"], direct: false }
+  - { code: polygon, category: geometry, symbols: ["⬠", "⬟", "⬡", "⬢"], direct: false }
+
+  # Calculus
+  - { code: partial, category: calculus, symbols: ["∂"], direct: false }
+  - { code: nabla, category: calculus, symbols: ["∇"], direct: false }
+  - { code: int, category: calculus, symbols: ["∫"], direct: false }
+  - { code: iint, category: calculus, symbols: ["∬"], direct: false }
+  - { code: iiint, category: calculus, symbols: ["∭"], direct: false }
+  - { code: oint, category: calculus, symbols: ["∮"], direct: false }
+  - { code: oiint, category: calculus, symbols: ["∯"], direct: false }
+  - { code: oiiint, category: calculus, symbols: ["∰"], direct: false }
+
+  # Binary operators
+  - { code: plus, category: operators, symbols: ["+", "⁺", "₊", "⊕"], direct: false }
+  - { code: minus, category: operators, symbols: ["-", "⁻", "₋", "⊖"], direct: false }
+  - { code: times, category: operators, symbols: ["×", "⊗", "·", "⊙", "∘", "∙", "⋆", "∗"], direct: false }
+  - { code: dot, category: operators, symbols: ["·", "⊙", "∘", "∙"], direct: false }
+  - { code: cdot, category: operators, symbols: ["·", "⊙", "∘", "∙"], direct: false }
+  - { code: star, category: operators, symbols: ["⋆", "∗"], direct: false }
+  - { code: ast, category: operators, symbols: ["∗"], direct: false }
+  - { code: bullet, category: operators, symbols: ["∙"], direct: false }
+  - { code: div, category: operators, symbols: ["÷", "⊘"], direct: false }
+  - { code: pm, category: operators, symbols: ["±", "∓"], direct: false }
+
+  # Set and logical operators
+  - { code: setop, category: sets_logic, symbols: ["∪", "∩", "∖", "∨", "∧"], direct: false }
+  - { code: cup, category: sets_logic, symbols: ["∪"], direct: false }
+  - { code: cap, category: sets_logic, symbols: ["∩"], direct: false }
+  - { code: setminus, category: sets_logic, symbols: ["∖"], direct: false }
+  - { code: vee, category: sets_logic, symbols: ["∨"], direct: false }
+  - { code: lor, category: sets_logic, symbols: ["∨"], direct: false }
+  - { code: wedge, category: sets_logic, symbols: ["∧"], direct: false }
+  - { code: land, category: sets_logic, symbols: ["∧"], direct: false }
+
+  # Relations
+  - { code: eq, category: relations, symbols: ["≡", "≔", "≈", "≌", "≝", "≜", "≟"], direct: false }
+  - { code: approx, category: relations, symbols: ["≈"], direct: false }
+  - { code: neq, category: relations, symbols: ["≠", "≶", "≷", "⪋", "⪌"], direct: false }
+  - { code: le, category: relations, symbols: ["<", "≤", "⩽", "≪", "≯"], direct: false }
+  - { code: prec, category: relations, symbols: ["≺", "≼"], direct: false }
+  - { code: ge, category: relations, symbols: [">", "≥", "⩾", "≫", "≮"], direct: false }
+  - { code: succ, category: relations, symbols: ["≻", "≽"], direct: false }
+  - { code: subset, category: relations, symbols: ["⊂", "⊆", "⫅", "⫋"], direct: false }
+  - { code: supset, category: relations, symbols: ["⊃", "⊇", "⫆", "⫌"], direct: false }
+  - { code: in, category: relations, symbols: ["∈"], direct: false }
+  - { code: ni, category: relations, symbols: ["∋"], direct: false }
+  - { code: notin, category: relations, symbols: ["∉"], direct: false }
+
+  # Arrows and implication
+  - { code: implies, category: arrows, symbols: ["⟹", "⇏", "⇒"], direct: false }
+  - { code: impliedby, category: arrows, symbols: ["⟸", "⇍", "⇐"], direct: false }
+  - { code: iff, category: arrows, symbols: ["⟺", "⇔"], direct: false }
+  - { code: left, category: arrows, symbols: ["←", "⟵", "⇦", "🡨", "↼", "↽", "⮘", "⮜"], direct: false }
+  - { code: leftarrow, category: arrows, symbols: ["←", "⟵", "⇦", "🡨", "↼", "↽", "⮘", "⮜"], direct: false }
+  - { code: longleft, category: arrows, symbols: ["⟵"], direct: false }
+  - { code: right, category: arrows, symbols: ["→", "⟶", "⇨", "🡪", "⮚", "⮞"], direct: false }
+  - { code: rightarrow, category: arrows, symbols: ["→", "⟶", "⇨", "🡪", "⮚", "⮞"], direct: false }
+  - { code: longright, category: arrows, symbols: ["⟶"], direct: false }
+  - { code: leftright, category: arrows, symbols: ["↔", "⇄", "⇆", "⇌", "⇋", "⇔"], direct: false }
+  - { code: up, category: arrows, symbols: ["↑", "⇧", "🡩", "⮙", "⮝"], direct: false }
+  - { code: uparrow, category: arrows, symbols: ["↑", "⇧", "🡩", "⮙", "⮝"], direct: false }
+  - { code: down, category: arrows, symbols: ["↓", "⇩", "🡫", "⮛", "⮟"], direct: false }
+  - { code: downarrow, category: arrows, symbols: ["↓", "⇩", "🡫", "⮛", "⮟"], direct: false }
+  - { code: updown, category: arrows, symbols: ["↕", "⇅", "⇵", "⥮", "⥯", "⇕"], direct: false }
+  - { code: nwarrow, category: arrows, symbols: ["↖"], direct: false }
+  - { code: nearrow, category: arrows, symbols: ["↗"], direct: false }
+  - { code: swarrow, category: arrows, symbols: ["↙"], direct: false }
+  - { code: searrow, category: arrows, symbols: ["↘"], direct: false }
+  - { code: arrow, category: arrows, symbols: ["←", "→", "↑", "↓", "↖", "↗", "↙", "↘"], direct: false }
+
+  # Greek letters
+  - { code: greek, category: greek, symbols: ["α", "β", "γ", "δ", "ϵ", "ε", "ζ", "η", "θ", "ϑ", "ι", "κ", "ϰ", "λ", "μ", "ν", "ξ", "ο", "π", "ϖ", "ρ", "ϱ", "σ", "ς", "τ", "υ", "ϕ", "φ", "χ", "ψ", "ω"], direct: false }
+  - { code: greekv, category: greek, symbols: ["ε", "ϑ", "ϰ", "ϖ", "ϱ", "ς", "φ"], direct: false }
+  - { code: greekc, category: greek, symbols: ["Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω"], direct: false }
+  - { code: alpha, category: greek, symbols: ["α", "Α"], direct: false }
+  - { code: beta, category: greek, symbols: ["β", "Β"], direct: false }
+  - { code: gamma, category: greek, symbols: ["γ", "Γ"], direct: false }
+  - { code: delta, category: greek, symbols: ["δ", "Δ"], direct: false }
+  - { code: epsilon, category: greek, symbols: ["ϵ", "ε", "Ε"], direct: false }
+  - { code: varepsilon, category: greek, symbols: ["ε"], direct: false }
+  - { code: zeta, category: greek, symbols: ["ζ", "Ζ"], direct: false }
+  - { code: eta, category: greek, symbols: ["η", "Η"], direct: false }
+  - { code: theta, category: greek, symbols: ["θ", "ϑ", "Θ"], direct: false }
+  - { code: vartheta, category: greek, symbols: ["ϑ"], direct: false }
+  - { code: iota, category: greek, symbols: ["ι", "Ι"], direct: false }
+  - { code: kappa, category: greek, symbols: ["κ", "ϰ", "Κ"], direct: false }
+  - { code: varkappa, category: greek, symbols: ["ϰ"], direct: false }
+  - { code: lambda, category: greek, symbols: ["λ", "Λ"], direct: false }
+  - { code: mu, category: greek, symbols: ["μ", "Μ"], direct: false }
+  - { code: nu, category: greek, symbols: ["ν", "Ν"], direct: false }
+  - { code: xi, category: greek, symbols: ["ξ", "Ξ"], direct: false }
+  - { code: omicron, category: greek, symbols: ["ο", "Ο"], direct: false }
+  - { code: pi, category: greek, symbols: ["π", "ϖ", "Π"], direct: false }
+  - { code: varpi, category: greek, symbols: ["ϖ"], direct: false }
+  - { code: rho, category: greek, symbols: ["ρ", "ϱ", "Ρ"], direct: false }
+  - { code: varrho, category: greek, symbols: ["ϱ"], direct: false }
+  - { code: sigma, category: greek, symbols: ["σ", "ς", "Σ"], direct: false }
+  - { code: varsigma, category: greek, symbols: ["ς"], direct: false }
+  - { code: tau, category: greek, symbols: ["τ", "Τ"], direct: false }
+  - { code: upsilon, category: greek, symbols: ["υ", "Υ"], direct: false }
+  - { code: phi, category: greek, symbols: ["ϕ", "φ", "Φ"], direct: false }
+  - { code: varphi, category: greek, symbols: ["φ"], direct: false }
+  - { code: chi, category: greek, symbols: ["χ", "Χ"], direct: false }
+  - { code: psi, category: greek, symbols: ["ψ", "Ψ"], direct: false }
+  - { code: omega, category: greek, symbols: ["ω", "Ω"], direct: false }
+
+  # Roman numerals
+  - { code: roman, category: roman, symbols: ["ⅰ", "ⅱ", "ⅲ", "ⅳ", "ⅴ", "ⅵ", "ⅶ", "ⅷ", "ⅸ", "ⅹ", "ⅺ", "ⅻ", "ⅼ", "ⅽ", "ⅾ", "ⅿ"], direct: false }
+  - { code: romanc, category: roman, symbols: ["Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ", "Ⅹ", "Ⅺ", "Ⅻ", "Ⅼ", "Ⅽ", "Ⅾ", "Ⅿ"], direct: false }
+
+  # Miscellaneous
+  - { code: gender, category: misc, symbols: ["♂", "♀", "⚢", "⚣", "⚤", "⚥", "⚦"], direct: false }
+
+  # Local engineering/scientific extensions
+  - { code: degc, category: engineering, symbols: ["℃"], direct: false }
+  - { code: degf, category: engineering, symbols: ["℉"], direct: false }
+  - { code: ohm, category: engineering, symbols: ["Ω"], direct: false }
+  - { code: micro, category: engineering, symbols: ["µ"], direct: false }
+  - { code: angstrom, category: engineering, symbols: ["Å"], direct: false }

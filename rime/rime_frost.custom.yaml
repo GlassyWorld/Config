@@ -1,0 +1,27 @@
+# rime_frost.custom.yaml
+# Personal language-model and dictionary overrides for rime-frost
+# encoding: utf-8
+
+patch:
+  grammar:
+    language: wanxiang-lts
+    non_collocation_penalty: -4
+    collocation_max_length: 5
+    collocation_min_length: 2
+    collocation_penalty: -14
+
+  custom_phrase/user_dict: personal
+
+  # Use the generated prefixed symbol preset. It inherits rime-frost's
+  # symbols_v table and overlays the curated /code mappings from the master catalog.
+  punctuator/symbols:
+    __include: symbols_prefixed:/symbols
+
+  # Keep rime-frost's slash-symbol recognition semantics: custom symbol codes
+  # are alphabetic, while number keys remain available for candidate selection.
+  recognizer/patterns/punct: "^/([0-9]|10|[A-Za-z]+)$"
+
+  translator/+:
+    contextual_suggestions: true
+    max_homophones: 4
+    max_homographs: 2

@@ -1,0 +1,6 @@
+# Rime table
+# coding: utf-8
+# Personal phrases managed in dotfiles
+# Format: phrase<Tab>code<Tab>weight
+
+芯碁	xin qi	1000
