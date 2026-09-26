@@ -3,6 +3,16 @@
 # encoding: utf-8
 
 patch:
+  # Application-specific default input mode.
+  # Terminal Neovim inherits iTerm2 because Squirrel sees the host application.
+  app_options:
+    com.runningwithcrayons.Alfred:
+      ascii_mode: true
+    org.gnu.Emacs:
+      ascii_mode: true
+    com.googlecode.iterm2:
+      ascii_mode: true
+
   style:
     candidate_list_layout: linear
     text_orientation: horizontal

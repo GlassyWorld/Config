@@ -35,6 +35,8 @@ patch:
     enable_sentence: false
     initial_quality: 2.0
 
+  melt_eng/initial_quality: 1.0
+
   translator/+:
     contextual_suggestions: true
     max_homophones: 4
