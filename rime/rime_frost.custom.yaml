@@ -21,6 +21,20 @@ patch:
   # are alphabetic, while number keys remain available for candidate selection.
   recognizer/patterns/punct: "^/([0-9]|10|[A-Za-z]+)$"
 
+  # Exact-match direct symbols generated from entries with direct: true.
+  # Loaded through stabledb like custom_phrase: no compiled dictionary, no learning,
+  # no completion, and no sentence generation.
+  engine/translators/+:
+    - table_translator@symbols_direct
+
+  symbols_direct:
+    dictionary: ""
+    user_dict: symbols_direct
+    db_class: stabledb
+    enable_completion: false
+    enable_sentence: false
+    initial_quality: 2.0
+
   translator/+:
     contextual_suggestions: true
     max_homophones: 4

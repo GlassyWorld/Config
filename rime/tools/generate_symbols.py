@@ -15,7 +15,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "symbols" / "symbols-master.yaml"
-OUTPUT = ROOT / "generated" / "symbols_prefixed.yaml"
+PREFIXED_OUTPUT = ROOT / "generated" / "symbols_prefixed.yaml"
+DIRECT_OUTPUT = ROOT / "generated" / "symbols_direct.txt"
 
 ENTRY_RE = re.compile(
     r"^\s*-\s*\{\s*code:\s*([A-Za-z]+),\s*"
@@ -91,6 +92,29 @@ def render_prefixed(entries: list[dict[str, object]]) -> str:
     return "\n".join(lines)
 
 
+def render_direct(entries: list[dict[str, object]]) -> str:
+    direct_entries = [entry for entry in entries if bool(entry["direct"])]
+    lines = [
+        "# Rime table",
+        "# coding: utf-8",
+        "# GENERATED FILE - DO NOT EDIT MANUALLY",
+        "# Source: symbols/symbols-master.yaml",
+        "# Regenerate with: python3 tools/generate_symbols.py",
+        "# Format: symbol<TAB>code<TAB>weight",
+        "",
+    ]
+
+    for entry in direct_entries:
+        code = str(entry["code"])
+        symbols = list(entry["symbols"])
+        for index, symbol in enumerate(symbols):
+            weight = 1000 - index
+            lines.append(f"{symbol}\t{code}\t{weight}")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -107,12 +131,18 @@ def main() -> int:
         print(f"OK: {len(entries)} symbol codes; {direct_count} direct codes")
         return 0
 
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    temp = OUTPUT.with_suffix(OUTPUT.suffix + ".tmp")
-    temp.write_text(render_prefixed(entries), encoding="utf-8")
-    temp.replace(OUTPUT)
+    PREFIXED_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
 
-    print(f"Generated {OUTPUT}")
+    prefixed_temp = PREFIXED_OUTPUT.with_suffix(PREFIXED_OUTPUT.suffix + ".tmp")
+    prefixed_temp.write_text(render_prefixed(entries), encoding="utf-8")
+    prefixed_temp.replace(PREFIXED_OUTPUT)
+
+    direct_temp = DIRECT_OUTPUT.with_suffix(DIRECT_OUTPUT.suffix + ".tmp")
+    direct_temp.write_text(render_direct(entries), encoding="utf-8")
+    direct_temp.replace(DIRECT_OUTPUT)
+
+    print(f"Generated {PREFIXED_OUTPUT}")
+    print(f"Generated {DIRECT_OUTPUT}")
     print(f"Entries: {len(entries)}; direct: {direct_count}")
     return 0
 

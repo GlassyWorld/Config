@@ -11,10 +11,10 @@
 #   wklchris/Rime-latex-symbols, latexmath.yaml (GPL-3.0)
 #   upstream blob: 06448a858534f5ddc089695bd0f08600ec3280fc
 #
-# Phase 1 policy:
+# Direct-input policy:
 # - Preserve the upstream code set and candidate ordering.
-# - Keep every entry direct: false.
-# - Direct-safe codes will be selected separately in Phase 2.
+# - Phase 2 currently enables a conservative Greek-letter direct subset only.
+# - All other codes remain prefixed-only until they are reviewed from actual use.
 
 version: 1
 
@@ -148,37 +148,37 @@ symbols:
   - { code: greek, category: greek, symbols: ["α", "β", "γ", "δ", "ϵ", "ε", "ζ", "η", "θ", "ϑ", "ι", "κ", "ϰ", "λ", "μ", "ν", "ξ", "ο", "π", "ϖ", "ρ", "ϱ", "σ", "ς", "τ", "υ", "ϕ", "φ", "χ", "ψ", "ω"], direct: false }
   - { code: greekv, category: greek, symbols: ["ε", "ϑ", "ϰ", "ϖ", "ϱ", "ς", "φ"], direct: false }
   - { code: greekc, category: greek, symbols: ["Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω"], direct: false }
-  - { code: alpha, category: greek, symbols: ["α", "Α"], direct: false }
-  - { code: beta, category: greek, symbols: ["β", "Β"], direct: false }
-  - { code: gamma, category: greek, symbols: ["γ", "Γ"], direct: false }
-  - { code: delta, category: greek, symbols: ["δ", "Δ"], direct: false }
-  - { code: epsilon, category: greek, symbols: ["ϵ", "ε", "Ε"], direct: false }
-  - { code: varepsilon, category: greek, symbols: ["ε"], direct: false }
+  - { code: alpha, category: greek, symbols: ["α", "Α"], direct: true }
+  - { code: beta, category: greek, symbols: ["β", "Β"], direct: true }
+  - { code: gamma, category: greek, symbols: ["γ", "Γ"], direct: true }
+  - { code: delta, category: greek, symbols: ["δ", "Δ"], direct: true }
+  - { code: epsilon, category: greek, symbols: ["ϵ", "ε", "Ε"], direct: true }
+  - { code: varepsilon, category: greek, symbols: ["ε"], direct: true }
   - { code: zeta, category: greek, symbols: ["ζ", "Ζ"], direct: false }
   - { code: eta, category: greek, symbols: ["η", "Η"], direct: false }
-  - { code: theta, category: greek, symbols: ["θ", "ϑ", "Θ"], direct: false }
-  - { code: vartheta, category: greek, symbols: ["ϑ"], direct: false }
-  - { code: iota, category: greek, symbols: ["ι", "Ι"], direct: false }
-  - { code: kappa, category: greek, symbols: ["κ", "ϰ", "Κ"], direct: false }
-  - { code: varkappa, category: greek, symbols: ["ϰ"], direct: false }
-  - { code: lambda, category: greek, symbols: ["λ", "Λ"], direct: false }
+  - { code: theta, category: greek, symbols: ["θ", "ϑ", "Θ"], direct: true }
+  - { code: vartheta, category: greek, symbols: ["ϑ"], direct: true }
+  - { code: iota, category: greek, symbols: ["ι", "Ι"], direct: true }
+  - { code: kappa, category: greek, symbols: ["κ", "ϰ", "Κ"], direct: true }
+  - { code: varkappa, category: greek, symbols: ["ϰ"], direct: true }
+  - { code: lambda, category: greek, symbols: ["λ", "Λ"], direct: true }
   - { code: mu, category: greek, symbols: ["μ", "Μ"], direct: false }
   - { code: nu, category: greek, symbols: ["ν", "Ν"], direct: false }
   - { code: xi, category: greek, symbols: ["ξ", "Ξ"], direct: false }
-  - { code: omicron, category: greek, symbols: ["ο", "Ο"], direct: false }
+  - { code: omicron, category: greek, symbols: ["ο", "Ο"], direct: true }
   - { code: pi, category: greek, symbols: ["π", "ϖ", "Π"], direct: false }
-  - { code: varpi, category: greek, symbols: ["ϖ"], direct: false }
-  - { code: rho, category: greek, symbols: ["ρ", "ϱ", "Ρ"], direct: false }
-  - { code: varrho, category: greek, symbols: ["ϱ"], direct: false }
-  - { code: sigma, category: greek, symbols: ["σ", "ς", "Σ"], direct: false }
-  - { code: varsigma, category: greek, symbols: ["ς"], direct: false }
-  - { code: tau, category: greek, symbols: ["τ", "Τ"], direct: false }
-  - { code: upsilon, category: greek, symbols: ["υ", "Υ"], direct: false }
-  - { code: phi, category: greek, symbols: ["ϕ", "φ", "Φ"], direct: false }
-  - { code: varphi, category: greek, symbols: ["φ"], direct: false }
+  - { code: varpi, category: greek, symbols: ["ϖ"], direct: true }
+  - { code: rho, category: greek, symbols: ["ρ", "ϱ", "Ρ"], direct: true }
+  - { code: varrho, category: greek, symbols: ["ϱ"], direct: true }
+  - { code: sigma, category: greek, symbols: ["σ", "ς", "Σ"], direct: true }
+  - { code: varsigma, category: greek, symbols: ["ς"], direct: true }
+  - { code: tau, category: greek, symbols: ["τ", "Τ"], direct: true }
+  - { code: upsilon, category: greek, symbols: ["υ", "Υ"], direct: true }
+  - { code: phi, category: greek, symbols: ["ϕ", "φ", "Φ"], direct: true }
+  - { code: varphi, category: greek, symbols: ["φ"], direct: true }
   - { code: chi, category: greek, symbols: ["χ", "Χ"], direct: false }
   - { code: psi, category: greek, symbols: ["ψ", "Ψ"], direct: false }
-  - { code: omega, category: greek, symbols: ["ω", "Ω"], direct: false }
+  - { code: omega, category: greek, symbols: ["ω", "Ω"], direct: true }
 
   # Roman numerals
   - { code: roman, category: roman, symbols: ["ⅰ", "ⅱ", "ⅲ", "ⅳ", "ⅴ", "ⅵ", "ⅶ", "ⅷ", "ⅸ", "ⅹ", "ⅺ", "ⅻ", "ⅼ", "ⅽ", "ⅾ", "ⅿ"], direct: false }
